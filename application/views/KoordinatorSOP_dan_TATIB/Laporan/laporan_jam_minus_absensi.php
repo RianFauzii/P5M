@@ -26,6 +26,7 @@
                     <div class="col-1">
                       <form method="get">
                       <select class="form-select" style="display:inline; padding: 0.375rem 1.25rem .375rem .75rem;" name="chooseFilter" id="chooseFilter">
+                      <option value="default" >-- Pilih salah satu --</option>
                       <option value="kelas" <?php if (isset($_GET['chooseFilter']) && $_GET['chooseFilter'] == 'kelas') echo 'selected'; ?>>Kelas</option>
                       <option value="nim" <?php if (isset($_GET['chooseFilter']) && $_GET['chooseFilter'] == 'nim') echo 'selected'; ?>>Nim</option>    
                         </select>
@@ -88,17 +89,50 @@
 
                       <?php } ?>
                           &nbsp&nbsp&nbsp&nbsp
-                          <label for="birthday">Mulai Tanggal &nbsp:</label>
+                          <label for="tanggal1">Mulai Tanggal &nbsp:</label>
                           &nbsp
-                          <input class="form-control" style="width:20%; display:inline;" class="text-left" type="date" id="tanggal1" name="tanggal1">
+                          <input class="form-control" style="width:20%; display:inline;" class="text-left" type="date" id="tanggalmulai" name="tanggal1">
+                          <?= form_error('tanggal1', '<small class="text-danger pl-3">', '</small>')?>
                           &nbsp&nbsp&nbsp&nbsp
-                          <label for="birthday">Sampai Tanggal &nbsp:</label>
+                          <label for="tanggal2">Sampai Tanggal &nbsp:</label>
                           &nbsp
-                          <input class="form-control" style="width:20%; display:inline;" float: right; type="date" id="tanggal2" name="tanggal2"> 
+                          <input class="form-control" style="width:20%; display:inline;" float: right; type="date" id="tanggalselesai" name="tanggal2">
+                          <?= form_error('tanggal2', '<small class="text-danger pl-3">', '</small>')?>  
                           &nbsp
                           <input  type="submit" id="cetak" name="cetak"class="btn btn-primary" value="Pilih"/>
                       </form>
                     </div>
+
+                    <script>
+                        // Ambil elemen HTML yang dibutuhkan
+                        const chooseFilter = document.getElementById('chooseFilter');
+                        const startDate = document.getElementById('tanggalmulai');
+
+                        // Buat fungsi untuk memeriksa apakah dropdown sudah dipilih
+                        function isFilterChosen() {
+                          return chooseFilter.value !== 'default';
+                        }
+
+                        // Tambahkan event listener ke dropdown chooseFilter
+                        chooseFilter.addEventListener('change', function() {
+                          // Jika dropdown sudah dipilih, aktifkan tanggal mulai
+                          if (isFilterChosen()) {
+                            startDate.disabled = false;
+                          } else {
+                            // Jika dropdown belum dipilih, nonaktifkan tanggal mulai
+                            startDate.disabled = true;
+                          }
+                        });
+
+                        // Tambahkan event listener ke tanggal mulai
+                        startDate.addEventListener('change', function() {
+                          // Jika dropdown belum dipilih, munculkan pesan kesalahan
+                          if (!isFilterChosen()) {
+                            alert('Anda harus memilih filter terlebih dahulu!');
+                            startDate.value = ''; // kosongkan tanggal mulai
+                          }
+                        });
+                    </script>
 
 
                   <?php if ($_SERVER['REQUEST_METHOD'] == 'POST') { ?>
@@ -264,8 +298,8 @@
                         <td class="text-center">Jam Minus Absensi Prodi MI Periode <?php echo $tanggalFT1?> Sampai <?php echo $tanggalFT2?></td>
                         <td class="text-center"><?php echo date("y-M-d")?></td>
                         </tr>
-                        <?php } } else if(isset($_POST['nim'])){
-?><?php
+                        <?php } } else if(isset($_POST['nim'])){ ?>
+                        <?php
                          if($dataMahasiswa[$i-1]['nim'] == $_POST['nim']){ 
                             $no++;
                         ?>

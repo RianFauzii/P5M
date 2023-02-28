@@ -18,13 +18,15 @@
                   <div class="row">
                     <div class="col-7">
                       <form action="" method="post" name="pilih" id="pilih">  
-                      <label for="birthday">Mulai Tanggal &nbsp:</label>
+                      <label for="tanggal1">Mulai Tanggal &nbsp:</label>
                       &nbsp
                       <input class="form-control" style="width:20%; display:inline;" type="date" id="tanggal1" name="tanggal1">
+                      <?= form_error('tanggal1', '<small class="text-danger pl-3">', '</small>')?>
                       &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                      <label for="birthday">Sampai Tanggal &nbsp:</label>
+                      <label for="tanggal2">Sampai Tanggal &nbsp:</label>
                       &nbsp
-                      <input class="form-control" style="width:20%; display:inline;" float: right; type="date" id="tanggal2" name="tanggal2"> 
+                      <input class="form-control" style="width:20%; display:inline;" float: right; type="date" id="tanggal2" name="tanggal2">
+                      <?= form_error('tanggal2', '<small class="text-danger pl-3">', '</small>')?> 
                       &nbsp&nbsp&nbsp
                       <input  type="submit" id="cetak" name="cetak"class="btn btn-primary" value="Pilih"/>
                     </form>
