@@ -1,30 +1,108 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Absensi extends CI_controller {
-  
   public function index()
   {
-		$data["absen"]=$this->Pelanggaran_model->getAll2();
-	  $this->load->view('KoordinatorSOP_dan_TATIB/layout/Header');
-		$this->load->view('KoordinatorSOP_dan_TATIB/Daftar/daftarAbsensi',$data);
-    $this->load->view('KoordinatorSOP_dan_TATIB/layout/Footer');
+    $this->load->library('form_validation');
+
+    $this->form_validation->set_rules('tanggal1', 'Mulai Tanggal', 'required');
+    $this->form_validation->set_rules('tanggal2', 'Sampai Tanggal', 'required|callback_valid_date_range');
+
+    $this->form_validation->set_message('required', "%s tidak boleh kosong.");
+
+    if ($this->form_validation->run() == FALSE)
+    {
+        // validasi gagal, tampilkan error
+        $data["absen"]=$this->Pelanggaran_model->getAll2();
+	      $this->load->view('KoordinatorSOP_dan_TATIB/layout/Header');
+		    $this->load->view('KoordinatorSOP_dan_TATIB/Daftar/daftarAbsensi',$data);
+        $this->load->view('KoordinatorSOP_dan_TATIB/layout/Footer');
+    }
+    else
+    {
+        // validasi sukses, proses input tanggal
+        $data["absen"]=$this->Pelanggaran_model->getAll2();
+	      $this->load->view('KoordinatorSOP_dan_TATIB/layout/Header');
+		    $this->load->view('KoordinatorSOP_dan_TATIB/Daftar/daftarAbsensi',$data);
+        $this->load->view('KoordinatorSOP_dan_TATIB/layout/Footer');
+    }
   }
+
+  // public function index()
+  // {
+	// 	$data["absen"]=$this->Pelanggaran_model->getAll2();
+	//   $this->load->view('KoordinatorSOP_dan_TATIB/layout/Header');
+	// 	$this->load->view('KoordinatorSOP_dan_TATIB/Daftar/daftarAbsensi',$data);
+  //   $this->load->view('KoordinatorSOP_dan_TATIB/layout/Footer');
+  // }
 
   public function laporan()
   {
-    $data["absen"]=$this->Pelanggaran_model->getAll2();
-    $this->load->view('KoordinatorSOP_dan_TATIB/layout/Header');
-    $this->load->view('KoordinatorSOP_dan_TATIB/Laporan/Laporan_Absensi',$data);
-    $this->load->view('KoordinatorSOP_dan_TATIB/layout/Footer');
+    $this->load->library('form_validation');
+
+    $this->form_validation->set_rules('tanggal1', 'Mulai Tanggal', 'required');
+    $this->form_validation->set_rules('tanggal2', 'Sampai Tanggal', 'required|callback_valid_date_range');
+
+    if ($this->form_validation->run() == FALSE)
+    {
+        // validasi gagal, tampilkan error
+        $data["absen"]=$this->Pelanggaran_model->getAll2();
+        $this->load->view('KoordinatorSOP_dan_TATIB/layout/Header');
+        $this->load->view('KoordinatorSOP_dan_TATIB/Laporan/Laporan_Absensi',$data);
+        $this->load->view('KoordinatorSOP_dan_TATIB/layout/Footer');
+    }
+    else
+    {
+        // validasi sukses, proses input tanggal
+        $data["absen"]=$this->Pelanggaran_model->getAll2();
+        $this->load->view('KoordinatorSOP_dan_TATIB/layout/Header');
+        $this->load->view('KoordinatorSOP_dan_TATIB/Laporan/Laporan_Absensi',$data);
+        $this->load->view('KoordinatorSOP_dan_TATIB/layout/Footer');
+    }
   }
+
+  // public function laporan()
+  // {
+  //   $data["absen"]=$this->Pelanggaran_model->getAll2();
+  //   $this->load->view('KoordinatorSOP_dan_TATIB/layout/Header');
+  //   $this->load->view('KoordinatorSOP_dan_TATIB/Laporan/Laporan_Absensi',$data);
+  //   $this->load->view('KoordinatorSOP_dan_TATIB/layout/Footer');
+  // }
 
   public function laporanJamMinusAbsensi()
   {
-    $data["absen"]=$this->Pelanggaran_model->getAll2();
-    $this->load->view('KoordinatorSOP_dan_TATIB/layout/Header');
-    $this->load->view('KoordinatorSOP_dan_TATIB/Laporan/laporan_jam_minus_absensi',$data);
-    $this->load->view('KoordinatorSOP_dan_TATIB/layout/Footer');
+    $this->load->library('form_validation');
+
+    $this->form_validation->set_rules('tanggal1', 'Mulai Tanggal', 'required');
+    $this->form_validation->set_rules('tanggal2', 'Sampai Tanggal', 'required|callback_valid_date_range');
+
+    $this->form_validation->set_message('required', "%s tidak boleh kosong.");
+    
+    if ($this->form_validation->run() == FALSE)
+    {
+        // validasi gagal, tampilkan error
+        $data["absen"]=$this->Pelanggaran_model->getAll2();
+        $this->load->view('KoordinatorSOP_dan_TATIB/layout/Header');
+        $this->load->view('KoordinatorSOP_dan_TATIB/Laporan/laporan_jam_minus_absensi',$data);
+        $this->load->view('KoordinatorSOP_dan_TATIB/layout/Footer');
+    }
+    else
+    {
+        // validasi sukses, proses input tanggal
+        $data["absen"]=$this->Pelanggaran_model->getAll2();
+        $this->load->view('KoordinatorSOP_dan_TATIB/layout/Header');
+        $this->load->view('KoordinatorSOP_dan_TATIB/Laporan/laporan_jam_minus_absensi',$data);
+        $this->load->view('KoordinatorSOP_dan_TATIB/layout/Footer');
+    }
   }
+
+  // public function laporanJamMinusAbsensi()
+  // {
+  //   $data["absen"]=$this->Pelanggaran_model->getAll2();
+  //   $this->load->view('KoordinatorSOP_dan_TATIB/layout/Header');
+  //   $this->load->view('KoordinatorSOP_dan_TATIB/Laporan/laporan_jam_minus_absensi',$data);
+  //   $this->load->view('KoordinatorSOP_dan_TATIB/layout/Footer');
+  // }
 
   public function cetakAbsensi()
   {
@@ -161,4 +239,21 @@ class Absensi extends CI_controller {
     $absen=$this->Pelanggaran_model->getAll2();
     echo json_encode($absen);
   }
+
+  public function valid_date_range()
+  {
+      $tanggal1 = $this->input->post('tanggal1');
+      $tanggal2 = $this->input->post('tanggal2');
+      
+      if (strtotime($tanggal1) > strtotime($tanggal2))
+      {
+          $this->form_validation->set_message('valid_date_range', 'Tanggal akhir harus lebih besar dari tanggal awal.');
+          return FALSE;
+      }
+      else
+      {
+          return TRUE;
+      }
+  }
+
 }

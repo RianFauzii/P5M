@@ -24,16 +24,50 @@ class p5m extends CI_controller {
 	}
 
 	public function laporan_jam_minus()
-	{	
-		$data["pelanggaran"]=$this->Pelanggaran_model->getAll();
-		$data1["p5m"]=$this->P5M_model->getAll();
-		$data2["get3tabel"]=$this->P5M_model->get3tabel();
-		
-		$this->load->view('KoordinatorSOP_dan_TATIB/layout/Header', $data);
-		$this->load->view('KoordinatorSOP_dan_TATIB/temp', $data1);
-		$this->load->view('KoordinatorSOP_dan_TATIB/Laporan/laporan_jam_minus',$data2);
-		$this->load->view('KoordinatorSOP_dan_TATIB/layout/Footer');	
+	{
+		$this->load->library('form_validation');
+
+		$this->form_validation->set_rules('tanggal1', 'Mulai Tanggal', 'required');
+		$this->form_validation->set_rules('tanggal2', 'Sampai Tanggal', 'required|callback_valid_date_range');
+
+		$this->form_validation->set_message('required', "%s tidak boleh kosong.");
+
+		if ($this->form_validation->run() == FALSE)
+		{
+			$data["pelanggaran"]=$this->Pelanggaran_model->getAll();
+			$data1["p5m"]=$this->P5M_model->getAll();
+			$data2["get3tabel"]=$this->P5M_model->get3tabel();
+			
+			$this->load->view('KoordinatorSOP_dan_TATIB/layout/Header', $data);
+			$this->load->view('KoordinatorSOP_dan_TATIB/temp', $data1);
+			$this->load->view('KoordinatorSOP_dan_TATIB/Laporan/laporan_jam_minus',$data2);
+			$this->load->view('KoordinatorSOP_dan_TATIB/layout/Footer');
+		}
+		else
+		{
+			// validasi sukses, proses input tanggal
+			$data["pelanggaran"]=$this->Pelanggaran_model->getAll();
+			$data1["p5m"]=$this->P5M_model->getAll();
+			$data2["get3tabel"]=$this->P5M_model->get3tabel();
+			
+			$this->load->view('KoordinatorSOP_dan_TATIB/layout/Header', $data);
+			$this->load->view('KoordinatorSOP_dan_TATIB/temp', $data1);
+			$this->load->view('KoordinatorSOP_dan_TATIB/Laporan/laporan_jam_minus',$data2);
+			$this->load->view('KoordinatorSOP_dan_TATIB/layout/Footer');
+		}
 	}
+
+	// public function laporan_jam_minus()
+	// {	
+	// 	$data["pelanggaran"]=$this->Pelanggaran_model->getAll();
+	// 	$data1["p5m"]=$this->P5M_model->getAll();
+	// 	$data2["get3tabel"]=$this->P5M_model->get3tabel();
+		
+	// 	$this->load->view('KoordinatorSOP_dan_TATIB/layout/Header', $data);
+	// 	$this->load->view('KoordinatorSOP_dan_TATIB/temp', $data1);
+	// 	$this->load->view('KoordinatorSOP_dan_TATIB/Laporan/laporan_jam_minus',$data2);
+	// 	$this->load->view('KoordinatorSOP_dan_TATIB/layout/Footer');	
+	// }
 
 	public function cetak_laporan_jam_minus()
 	{	
@@ -145,6 +179,7 @@ class p5m extends CI_controller {
 			}
 		}// echo "Today is " . date("Y-m-d") . "<br>";
 		// echo "<script>alert('P5M Selesai') ;</script>";
+		$this->session->set_flashdata('pesan_success', ' dibuat');
 		redirect ('p5m/history_lihat');
 	}
 
@@ -157,5 +192,22 @@ class p5m extends CI_controller {
 	function gagal(){
 		echo "<script>alert('Input data Gagal') ;</script>";
 	}
+
+	public function valid_date_range()
+  {
+      $tanggal1 = $this->input->post('tanggal1');
+      $tanggal2 = $this->input->post('tanggal2');
+      
+      if (strtotime($tanggal1) > strtotime($tanggal2))
+      {
+          $this->form_validation->set_message('valid_date_range', 'Tanggal akhir harus lebih besar dari tanggal awal.');
+          return FALSE;
+      }
+      else
+      {
+          return TRUE;
+      }
+  }
+
 }
 ?>
